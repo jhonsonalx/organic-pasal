@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Header from "../base/Header";
 import Footer from "../base/Footer";
 import Model from "../base/Model";
+import axiosInstance from "../api/axiosInstance";
+import { baseURL } from "../api/axiosInstance";
 
 export default class Wishlist extends Component {
     constructor() {
@@ -27,6 +29,7 @@ export default class Wishlist extends Component {
           wishlist: data2.wishlist,
         });
       }
+      
   render() {
     return (
         <React.Fragment>
@@ -56,7 +59,7 @@ export default class Wishlist extends Component {
         <section  className="cart__section section--padding">
             <div  className="container">
                 <div  className="cart__section--inner">
-                    <form action="#"> 
+                   
                         <h2  className="cart__title mb-40">Wishlist</h2>
                         <div  className="cart__table">
                             <table  className="cart__table--inner">
@@ -71,108 +74,28 @@ export default class Wishlist extends Component {
                                 <tbody  className="cart__table--body">
                                     <tr  className="cart__table--body__items">
                                         <td  className="cart__table--body__list">
+                                        {this.state.wishlist?.map((item) => {
+                                                return (
                                             <div  className="cart__product d-flex align-items-center">
                                                 <button  className="cart__remove--btn" aria-label="search button" type="button">
+
                                                     <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
                                                 </button>
                                                 <div  className="cart__thumbnail">
-                                                    <Link to="/"><img  className="border-radius-5" src="assets/img/product/bhindi.jpg" alt="cart-product"/></Link>
+                                                    <Link to={`/product/${item.item.slug}`}><img  className="border-radius-5"  src={`${baseURL}${item.item.image}`} alt={item.item.name}/></Link>
                                                 </div>
                                                 <div  className="cart__content">
                                                     <h3  className="cart__content--title h4"><Link to ="/">BHINDI</Link></h3>
                                                     <span  className="cart__content--variant">COLOR: Blue</span>
                                                     <span  className="cart__content--variant">WEIGHT: 2 Kg</span>
+                                                    
                                                 </div>
                                             </div>
+                                            );
+                                        })}
                                         </td>
-                                        <td  className="cart__table--body__list">
-                                            <span  className="cart__price">RS65.00</span>
-                                        </td>
-                                        <td  className="cart__table--body__list text-center">
-                                            <span  className="in__stock text__secondary">in stock</span>
-                                        </td>
-                                        <td  className="cart__table--body__list text-right">
-                                            <Link className="wishlist__cart--btn btn" to="cart.html">Add To Cart</Link>
-                                        </td>
-                                    </tr>
-                                    <tr  className="cart__table--body__items">
-                                        <td  className="cart__table--body__list">
-                                            <div  className="cart__product d-flex align-items-center">
-                                                <button  className="cart__remove--btn" aria-label="search button" type="button">
-                                                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
-                                                </button>
-                                                <div  className="cart__thumbnail">
-                                                    <Link to="/"><img  className="border-radius-5" src="assets/img/product/Pili.jpg" alt="cart-product"/></Link>
-                                                </div>
-                                                <div  className="cart__content">
-                                                    <h3  className="cart__content--title h4"><Link to="/">RATO KURSANI</Link></h3>
-                                                    <span  className="cart__content--variant">COLOR: Blue</span>
-                                                    <span  className="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td  className="cart__table--body__list">
-                                            <span  className="cart__price">RS65.00</span>
-                                        </td>
-                                        <td  className="cart__table--body__list text-center">
-                                            <span  className="in__stock text__secondary">in stock</span>
-                                        </td>
-                                        <td  className="cart__table--body__list text-right">
-                                            <Link className="wishlist__cart--btn btn" to="cart.html">Add To Cart</Link>
-                                        </td>
-                                    </tr>
-                                    <tr  className="cart__table--body__items">
-                                        <td  className="cart__table--body__list">
-                                            <div  className="cart__product d-flex align-items-center">
-                                                <button  className="cart__remove--btn" aria-label="search button" type="button">
-                                                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
-                                                </button>
-                                                <div  className="cart__thumbnail">
-                                                    <Link to="/"><img  className="border-radius-5" src="assets/img/product/cauli.jpg" alt="cart-product"/></Link>
-                                                </div>
-                                                <div  className="cart__content">
-                                                    <h3  className="cart__content--title h4"><Link to="/">CAULIFLOWER</Link></h3>
-                                                    <span  className="cart__content--variant">COLOR: Blue</span>
-                                                    <span  className="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td  className="cart__table--body__list">
-                                            <span  className="cart__price">RS65.00</span>
-                                        </td>
-                                        <td  className="cart__table--body__list text-center">
-                                            <span  className="in__stock text__secondary">in stock</span>
-                                        </td>
-                                        <td  className="cart__table--body__list text-right">
-                                            <Link className="wishlist__cart--btn btn" to="cart.html">Add To Cart</Link>
-                                        </td>
-                                    </tr>
-                                    <tr  className="cart__table--body__items">
-                                        <td  className="cart__table--body__list">
-                                            <div  className="cart__product d-flex align-items-center">
-                                                <button  className="cart__remove--btn" aria-label="search button" type="button">
-                                                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
-                                                </button>
-                                                <div  className="cart__thumbnail">
-                                                    <Link to="/"><img  className="border-radius-5" src="assets/img/product/gghh.jpg" alt="cart-product"/></Link>
-                                                </div>
-                                                <div  className="cart__content">
-                                                    <h3  className="cart__content--title h4"><Link to="/">BHENTA</Link></h3>
-                                                    <span  className="cart__content--variant">COLOR: Blue</span>
-                                                    <span  className="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td  className="cart__table--body__list">
-                                            <span  className="cart__price">RS65.00</span>
-                                        </td>
-                                        <td  className="cart__table--body__list text-center">
-                                            <span  className="in__stock text__secondary">in stock</span>
-                                        </td>
-                                        <td  className="cart__table--body__list text-right">
-                                            <Link className="wishlist__cart--btn btn" to="cart.html">Add To Cart</Link>
-                                        </td>
-                                    </tr>
+                                        </tr>
+                                        
                                 </tbody>
                             </table> 
                             <div  className="continue__shopping d-flex justify-content-between">
@@ -180,7 +103,7 @@ export default class Wishlist extends Component {
                                 <Link className="continue__shopping--clear" to="shop.html">View All Products</Link>
                             </div>
                         </div> 
-                    </form> 
+                   
                 </div>
             </div>     
         </section>

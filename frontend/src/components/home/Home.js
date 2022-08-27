@@ -3,7 +3,7 @@ import Header from "../base/Header";
 import Footer from "../base/Footer";
 import Model from "../base/Model";
 import { Link } from "react-router-dom";
-import axiosInstance, { baseURL } from "../../api/axiosInstance";
+import axiosInstance, { baseURL } from "../api/axiosInstance";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -13,7 +13,6 @@ export default class Home extends Component {
         super();
         this.state = {
             all_popular_items: [],
-            all_recommended_items: [],
             blogs: [],
             order: [],
             order_subtotal: 0,
@@ -26,7 +25,6 @@ export default class Home extends Component {
         let data = await res.data;
         this.setState({
             all_popular_items: data.all_popular_items,
-            all_recommended_items: data.all_recommended_items,
             blogs: data.blogs,
         });
         let res1 = await axiosInstance.get(`/order-cart/`);
@@ -40,7 +38,9 @@ export default class Home extends Component {
         this.setState({
             wishlist: data2.wishlist,
         });
+        console.log(data.all_popular_items);
     }
+
     render() {
 
         return (
@@ -154,49 +154,48 @@ export default class Home extends Component {
                                         <div className="product__section--inner">
                                             <div className="row row-cols-lg-4 row-cols-md-3 row-cols-2 mb--n28">
 
-                                                
-                                            {popular_items?.map((item) => {
-                                                return (
-                                                <div className="col md-28">
-                                                    <div className="product__items ">
-                                                        <div className="product__items--thumbnail">
-                                                            <Link className="product__items--link" to="product-details">
-                                                                <img className="product__items--img product__primary--img" src={item.image} alt="product-img" />
 
-                                                            </Link>
-                                                            <div className="product__badge">
-                                                                <span className="product__badge--items sale">Sale</span>
-                                                            </div>
-                                                            <ul className="product__items--action">
-                                                                <li className="product__items--action__list">
-                                                                    <Link className="product__items--action__btn" to="wishlist">
-                                                                        <svg className="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" /></svg>
-                                                                        <span className="visually-hidden">Wishlist</span>
+                                                {this.state.all_popular_items?.map((item) => {
+                                                    return (
+                                                        <div className="col md-28">
+                                                            <div className="product__items ">
+                                                                <div className="product__items--thumbnail">
+                                                                    <Link className="product__items--link" to={`/product/${item.slug}`}>
+                                                                        <img className="product__items--img product__primary--img" src={`${baseURL}${item.image}`} alt={item.name} />
                                                                     </Link>
-                                                                </li>
-                                                                <li className="product__items--action__list">
+                                                                    <div className="product__badge">
+                                                                        <span className="product__badge--items sale">Sale</span>
+                                                                    </div>
+                                                                    <ul className="product__items--action">
+                                                                        <li className="product__items--action__list">
+                                                                            <Link className="product__items--action__btn" to="wishlist">
+                                                                                <svg className="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" /></svg>
+                                                                                <span className="visually-hidden">Wishlist</span>
+                                                                            </Link>
+                                                                        </li>
+                                                                        <li className="product__items--action__list">
 
-                                                                </li>
-                                                                <li className="product__items--action__list">
+                                                                        </li>
+                                                                        <li className="product__items--action__list">
 
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
 
 
 
-                                                        <div className="product__items--content text-center">
-                                                            <Link className="add__to--cart__btn" to="cart">+ Add to cart </Link>
-                                                            <h3 className="product__items--content__title h4"> <Link to="product-details">{item.name} </Link></h3>
-                                                            <div className="product__items--price">
-                                                                <span className="current__price">Rs.{item.price}</span>
-                                                                {/* <span className="old__price">RS40.00</span> */}
+                                                                <div className="product__items--content text-center">
+                                                                    <Link className="add__to--cart__btn" to="cart">+ Add to cart </Link>
+                                                                    <h3 className="product__items--content__title h4"> <Link to={`/product/${item.slug}`}>{item.name} </Link></h3>
+                                                                    <div className="product__items--price">
+                                                                        <span className="current__price">Rs.{item.price}</span>
+                                                                        {/* <span className="old__price">RS40.00</span> */}
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                );
-                                            })}
+                                                    );
+                                                })}
 
 
                                             </div>

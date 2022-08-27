@@ -3,6 +3,10 @@ import Header from "../base/Header";
 import Footer from "../base/Footer";
 import Model from "../base/Model";
 import { Link } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
+
+
+
 
 export default class Blog extends Component {
     constructor() {

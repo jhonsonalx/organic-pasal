@@ -3,6 +3,8 @@ import Header from "../base/Header";
 import Footer from "../base/Footer";
 import Model from "../base/Model";
 import { Link } from "react-router-dom";
+import axiosInstance, { baseURL } from "../api/axiosInstance";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class Shop extends Component {
     constructor() {
@@ -32,6 +34,7 @@ export default class Shop extends Component {
         this.setState({
           wishlist: data2.wishlist,
         });
+        console.log(data.all_popular_items);
       }
   render() {
     return (
@@ -104,11 +107,16 @@ export default class Shop extends Component {
                                 <div id="product_grid" className="tab_pane active show">
                                     <div className="product__section--inner product__section--style3__inner">
                                         <div className="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-2 mb--n30">
+                                        {this.state.items?.map((item) => {
+                                                return (
                                             <div className="col mb-30">
                                                 <div className="product__items product__items2">
+                                                 
+                                                  
+
                                                     <div className="product__items--thumbnail">
                                                         <Link className="product__items--link" to="product-details">
-                                                            <img className="product__items--img product__primary--img" src="assets/img/product/bhindi.jpg" alt="product-img"/>
+                                                            <img className="product__items--img product__primary--img" src={`${baseURL}${item.image}`} alt={item.name}/>
                                                         </Link>
                                                         <div className="product__badge">
                                                             <span className="product__badge--items sale">Sale</span>
@@ -128,10 +136,10 @@ export default class Shop extends Component {
                                                     </div>
                                                     <div className="product__items--content product__items2--content text-center">
                                                         <Link className="add__to--cart__btn" to="cart">+ Add to cart</Link>
-                                                        <h3 className="product__items--content__title h4"><Link to="product-details"></Link></h3>
+                                                        <h3 className="product__items--content__title h4"><Link to={`/product/${item.slug}`}>{item.name}</Link></h3>
                                                         <div className="product__items--price">
-                                                            <span className="current__price">RS39.00</span>
-                                                            <span className="old__price">RS59.00</span>
+                                                            <span className="current__price">Rs.{item.price}</span>
+                                                            {/*<span className="old__price">RS59.00</span>*/}
                                                         </div>
                                                         <div className="product__items--rating d-flex justify-content-center align-items-center">
                                                             <ul className="d-flex">
@@ -176,6 +184,9 @@ export default class Shop extends Component {
                                                     </div>
                                                 </div>
                                             </div>
+                                               );
+                                            })}
+                                            
                                             
                                         </div>
                                     </div>

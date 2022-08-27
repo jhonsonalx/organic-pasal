@@ -146,17 +146,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-CORS_ALLOWED_ORIGINSS = [
-    "http:localhost:3000",
-    "127.0.0.1:8000",
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
 ]
 
-CSRF_TRUSTED_ORIGINS = ['http:localhost:3000',
-                        'http:localhost:127.0.0.1:8000',]
 
-
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000',
-                        'http://localhost:127.0.0.1:8000',]
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000', 'http://localhost:3000']
 
 
 # Django Email
@@ -164,6 +162,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'myemail'
-EMAIL_HOST_PASSWORD = 'password'
+EMAIL_HOST_USER = 'ranasunil636@gmail.com'
+EMAIL_HOST_PASSWORD = 'sadyvplbpjflzihi'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

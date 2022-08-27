@@ -147,12 +147,14 @@ class ItemDetailView(APIView):
     def get(self, *args, **kwargs):
         item = Product.objects.get(slug=self.kwargs['slug'])
         items = Product.objects.all()
-        reviews = Review.objects.filter(item=Product)
-        item_serializer = ProductSerializer(Product, context={'user_id': self.request.user.id}).data
+        reviews = Review.objects.filter(item=item)
+        item_serializer = ProductSerializer(item, context={'user_id': self.request.user.id}).data
         reviews_serializer = ReviewSerializer(reviews, many=True).data
+        items_serializer = ProductSerializer(items, many=True).data
 
         context = {
             'item':  item_serializer,
+            'items':  items_serializer,
             'reviews': reviews_serializer,
         }
         return Response(context, status=status.HTTP_200_OK)
@@ -295,37 +297,32 @@ def add_to_cart(request, slug):
 def add_items_to_cart(request, slug):
     item = get_object_or_404(Product, slug=slug)
     quantity = request.data['quantity']
-    size = request.data['size']
-    color = request.data['color']
     if int(quantity) > 0:
-        if int(quantity) <= item.stock_count:
-            order_item, created = OrderItem.objects.get_or_create(
-                item=item,
-                user=request.user,
-                ordered=False
-            )
-            order_qs = Order.objects.filter(user=request.user, ordered=False)
-            if order_qs.exists():
-                order = order_qs[0]
-                
-                if order.items.filter(item__slug=item.slug).exists():
-                    order_item.quantity = order_item.quantity + int(quantity)
-                    order_item.save()
-                    return Response({"message": "This order item was updated."}, status=status.HTTP_200_OK)
-                else:
-                    order_item.quantity = int(quantity)
-                    order_item.save()
-                    order.items.add(order_item)
-                    return Response({"message": "This item was added to your cart."}, status=status.HTTP_200_OK)
+        order_item, created = OrderItem.objects.get_or_create(
+            item=item,
+            user=request.user,
+            ordered=False
+        )
+        order_qs = Order.objects.filter(user=request.user, ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            
+            if order.items.filter(item__slug=item.slug).exists():
+                order_item.quantity = order_item.quantity + int(quantity)
+                order_item.save()
+                return Response({"message": "This order item was updated."}, status=status.HTTP_200_OK)
             else:
-                ordered_date = timezone.now()
-                order = Order.objects.create(user=request.user, ordered_date=ordered_date)
                 order_item.quantity = int(quantity)
                 order_item.save()
                 order.items.add(order_item)
                 return Response({"message": "This item was added to your cart."}, status=status.HTTP_200_OK)
         else:
-            return Response({"message": "The quantity cannot be more than "+str(item.stock_count)}, status=status.HTTP_400_BAD_REQUEST)
+            ordered_date = timezone.now()
+            order = Order.objects.create(user=request.user, ordered_date=ordered_date)
+            order_item.quantity = int(quantity)
+            order_item.save()
+            order.items.add(order_item)
+            return Response({"message": "This item was added to your cart."}, status=status.HTTP_200_OK)
     else:
         return Response({"message": "The quantity cannot be less than zero."}, status=status.HTTP_400_BAD_REQUEST)
 

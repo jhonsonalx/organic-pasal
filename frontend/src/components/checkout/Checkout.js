@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import Header from "../base/Header";
 import Footer from "../base/Footer";
 import Model from "../base/Model";
+import axiosInstance from "../api/axiosInstance";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 export default class Checkout extends Component {
@@ -44,7 +47,7 @@ export default class Checkout extends Component {
         let res3 = await axiosInstance.get(`/addresses/`);
         let data3 = await res3.data;
         for (var i = 0; i < data3.addresses.length; i++) {
-          if (data3.addresses[i].default == true) {
+          if (data3.addresses[i].default === true) {
             this.setState({
               address: data3.addresses[i],
             });
@@ -57,8 +60,8 @@ export default class Checkout extends Component {
         const value = target.value;
         const name = target.name;
     
-        if (name == "default") {
-          if (this.state.default == "false") {
+        if (name === "default") {
+          if (this.state.default === "false") {
             this.setState({
               default: "true",
             });
@@ -76,7 +79,7 @@ export default class Checkout extends Component {
     
       async handleSubmit(event) {
         event.preventDefault();
-        if (this.state.use_default == "false") {
+        if (this.state.use_default === "false") {
           try {
             let res = await axiosInstance.post(`/addresses/`, {
               full_name: this.state.full_name,
@@ -173,7 +176,7 @@ export default class Checkout extends Component {
       }
     
       useDefaultAddress() {
-        if (document.getElementById("hideable_shipping_form").style.display == "none") {
+        if (document.getElementById("hideable_shipping_form").style.display === "none") {
           this.setState({
             use_default: "false",
           });

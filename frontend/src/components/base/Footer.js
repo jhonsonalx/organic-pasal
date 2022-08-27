@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import {  Link } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class Footer extends Component {
     constructor() {
@@ -41,7 +44,7 @@ export default class Footer extends Component {
             email: "",
           });
         } catch (err) {
-          if (err.response.data.message != undefined){
+          if (err.response.data.message !== undefined){
             toast.error(err.response.data.message, {
               position: "bottom-right",
               autoClose: 4000,
@@ -83,7 +86,7 @@ export default class Footer extends Component {
                                 </button>
                             </h3>
                             <div className="footer__widget--inner">
-                                <Link className="footer__widget--logo" to="index"><img src="assets/img/logo/logo.png" alt="footer-logo"/></Link>
+                                <Link className="footer__widget--logo" to="index"><img src="/assets/img/logo/logo.png" alt="footer-logo"/></Link>
                                 <p className="footer__widget--desc m-0">The variety of products available at our store at the moment is vast, but we still continue to widen our assortment.</p>
                                 <ul className="footer__widget--social d-flex">
                                     <li className="footer__widget--social__list">
@@ -142,8 +145,8 @@ export default class Footer extends Component {
                 </div>
             </div>
         </div>
-        <img className="footer__position--shape__one" src="assets/img/other/footer-shape1.png" alt="footer-shape"/>
-        <img className="footer__position--shape__two" src="assets/img/other/footer-shape2.png" alt="footer-shape"/>
+        <img className="footer__position--shape__one" src="/assets/img/other/footer-shape1.png" alt="footer-shape"/>
+        <img className="footer__position--shape__two" src="/assets/img/other/footer-shape2.png" alt="footer-shape"/>
     
       </div>
     )

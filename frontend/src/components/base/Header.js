@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
+
 function openWishlist() {
     document.getElementById("Wishlist").style.display = "block";
   }
@@ -80,7 +82,7 @@ export default class Header extends Component {
                         </Link>
                     </div>
                     <div className="main__logo">
-                        <h1 className="main__logo--title"><Link className="main__logo--link" to="/"><img className="main__logo--img" src="assets/img/logo/logo.png" alt="logo-img"/></Link></h1>
+                        <h1 className="main__logo--title"><Link className="main__logo--link" to="/"><img className="main__logo--img" src="/assets/img/logo/logo.png" alt="logo-img"/></Link></h1>
                     </div>
                     <div className="header__search--widget d-none d-lg-block header__sticky--none">
                         <form className="d-flex header__search--form" action="#">
@@ -182,10 +184,17 @@ export default class Header extends Component {
                     <div className="header__account header__sticky--none">
                         <ul className="d-flex">
                             <li className="header__account--items d-none d-lg-block">
-                                <Link className="header__account--btn" to="myaccount">
-                                    <svg xmlns="http://www.w3.org/2000/svg"  width="20.51" height="19.443" viewBox="0 0 512 512"><path d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32"/><path d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="32"/></svg>
-                                    <span className="visually-hidden">My account</span> 
-                                </Link>
+                                {this.state.userAuthenticated ? (
+                                    <Link className="header__account--btn" to="/myaccount">
+                                        <svg xmlns="http://www.w3.org/2000/svg"  width="20.51" height="19.443" viewBox="0 0 512 512"><path d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32"/><path d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="32"/></svg>
+                                        <span className="visually-hidden">My account</span> 
+                                    </Link>
+                                    ) : (
+                                    <Link className="header__account--btn" to="/login">
+                                        <svg xmlns="http://www.w3.org/2000/svg"  width="20.51" height="19.443" viewBox="0 0 512 512"><path d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32"/><path d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="32"/></svg>
+                                        <span className="visually-hidden">Login</span> 
+                                    </Link>
+                                )}
                             </li>
                             <li className="header__account--items  header__account--search__items mobile__d--block d-sm-2-none">
                                 <Link className="header__account--btn search__open--btn" to="#" data-offcanvas>
@@ -577,7 +586,7 @@ export default class Header extends Component {
             <div className="offcanvas__inner">
                 <div className="offcanvas__logo">
                     <Link className="offcanvas__logo_link" to="/">
-                        <img src="assets/img/logo/logo12.png" alt="Grocee Logo" width="158" height="36"/>
+                        <img src="/assets/img/logo/logo12.png" alt="Grocee Logo" width="158" height="36"/>
                     </Link>
                     <button className="offcanvas__close--btn" data-offcanvas>close</button>
                 </div>
@@ -666,7 +675,7 @@ export default class Header extends Component {
                     </div>
                     <div className="offcanvas__account--currency">
                         <Link className="offcanvas__account--currency__menu text-black" to="#">
-                            <img src="assets/img/icon/usd-icon.png" alt="currency"/>
+                            <img src="/assets/img/icon/usd-icon.png" alt="currency"/>
                             <span>USD</span> 
                             <svg xmlns="http://www.w3.org/2000/svg" width="9.797" height="6.05" viewBox="0 0 9.797 6.05">
                                 <path  d="M14.646,8.59,10.9,12.329,7.151,8.59,6,9.741l4.9,4.9,4.9-4.9Z" transform="translate(-6 -8.59)" fill="currentColor" opacity="0.7"/>
@@ -746,7 +755,7 @@ export default class Header extends Component {
             <div className="minicart__product">
                 <div className="minicart__product--items d-flex">
                     <div className="minicart__thumb">
-                        <Link to="product-details"><img src="assets/img/product/product1.png" alt="prduct-img"/></Link>
+                        <Link to="product-details"><img src="/assets/img/product/product1.png" alt="prduct-img"/></Link>
                     </div>
                     <div className="minicart__text">
                         <h4 className="minicart__subtitle"><Link to="product-details">The is Garden Vegetable.</Link></h4>
@@ -769,7 +778,7 @@ export default class Header extends Component {
                 </div>
                 <div className="minicart__product--items d-flex">
                     <div className="minicart__thumb">
-                        <Link to="product-details"><img src="assets/img/product/product2.png" alt="prduct-img"/></Link>
+                        <Link to="product-details"><img src="/assets/img/product/product2.png" alt="prduct-img"/></Link>
                     </div>
                     <div className="minicart__text">
                         <h4 className="minicart__subtitle"><Link to="product-details">Fresh Tomatoe is organic.</Link></h4>

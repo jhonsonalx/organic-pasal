@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Header from "../base/Header";
 import Footer from "../base/Footer";
 import Model from "../base/Model";
+import axiosInstance from "../api/axiosInstance";
+
 
 export default class About extends Component {
     constructor() {

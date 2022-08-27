@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import {  Link } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { baseURL } from "../api/axiosInstance";
 function closeWishlist() {
     document.getElementById("Wishlist").style.display = "none";
   }

@@ -7,7 +7,6 @@ import Contact from "./components/other/Contact";
 import Cart from "./components/pages/Cart";
 import Wishlist from "./components/pages/Wishlist";
 import Product from "./components/product/Product-details";
-import Productgallery from "./components/product/Productgallery";
 
 import Blog from "./components/blog/Blog";
 import Shop from "./components/shop/Shop";
@@ -40,19 +39,14 @@ export default function App() {
         <Route exact path="/contact">
           <Contact/>
         </Route>
-
-        <Route exact path="/product">
-          <Product/>
+        
+        <Route exact path="/product/:slug">
+          <Product />
         </Route>
 
          <Route exact path="/checkout">
            <Checkout/>
          </Route>
-
-         <Route exact path="/productgallery">
-           <Productgallery/>
-         </Route>
-
        
 
          <Route exact path="/blog">

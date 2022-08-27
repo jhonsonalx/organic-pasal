@@ -2,6 +2,7 @@ from itertools import product
 from django.conf import settings
 from django.db import models
 from django.utils.html import mark_safe
+from django.utils.text import slugify
 
 # Create your models here.
 STATUS = (
@@ -53,6 +54,10 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
+
 
 class Wishlist(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -76,6 +81,11 @@ class OrderItem(models.Model):
     def __str__(self):
         return self.name
 
+    def get_total_item_price(self):
+        return self.quantity * self.item.price
+
+    def get_final_price(self):
+        return round(self.get_total_item_price(),2)
 
 
 class Order(models.Model):
@@ -90,10 +100,20 @@ class Order(models.Model):
     order_note = models.CharField(max_length=20, blank=True, null=True)
     status = models.IntegerField(choices=ORDER_STATUS, blank=True, null=True)
 
-
     def __str__(self):
         return self.user.username
 
+    def get_subtotal(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        return total
+
+    def get_total(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        return round(total, 2)
 
 
 class Address(models.Model):
