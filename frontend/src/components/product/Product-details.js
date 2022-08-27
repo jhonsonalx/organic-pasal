@@ -32,6 +32,7 @@ class Product extends Component {
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleWishlistSubmit = this.handleWishlistSubmit.bind(this);
     }
 
     async componentDidMount() {
@@ -114,6 +115,46 @@ class Product extends Component {
         }
     }
 
+    async handleWishlistSubmit(item_slug) {
+        try {
+            let res = await axiosInstance.get(`/add-to-wishlist/${item_slug}/`);
+            toast.success(res.data.message, {
+                position: "bottom-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                theme: "colored",
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+            });
+        } catch (err) {
+            if (err.response.data.message !== undefined) {
+                toast.error(err.response.data.message, {
+                position: "bottom-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                theme: "colored",
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                });
+            } else {
+                toast.error(err.message, {
+                position: "bottom-right",
+                autoClose: 4000,
+                hideProgressBar: false,
+                theme: "colored",
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                });
+            }
+        }
+      }
+    
     render() {
         let item = this.state.item;
         
@@ -216,7 +257,7 @@ class Product extends Component {
                                                             <input
                                                                 type="number"
                                                                 name="quantity"
-                                                                className="form-control"
+                                                                className="contact__form--input2"
                                                                 required="required"
                                                                 data-error="Quantity is required."
                                                                 value={this.state.quantity}
@@ -226,10 +267,10 @@ class Product extends Component {
                                                         <button className="btn quickview__cart--btn" type="submit">Add To Cart</button>
                                                     </div>
                                                     <div className="product__variant--list mb-15">
-                                                        <Link className="variant__wishlist--icon mb-15" to="/wishlist" title="Add to wishlist">
+                                                        <span className="variant__wishlist--icon mb-15" onClick={() => this.handleWishlistSubmit(item.slug)} title="Add to wishlist">
                                                             <svg className="quickview__variant--wishlist__svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" /></svg>
                                                             Add to Wishlist
-                                                        </Link>
+                                                        </span>
                                                         {/* <button className="variant__buy--now__btn btn" type="submit">Buy it now</button> */}
                                                     </div>
 

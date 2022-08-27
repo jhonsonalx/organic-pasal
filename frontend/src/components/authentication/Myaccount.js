@@ -65,8 +65,8 @@ export default class Myaccount extends Component {
                         <div className="container">
 
                             <p className="account__welcome--text">Hello, User welcome to your dashboard!</p>
-                            <div className="my__account--section__inner border-radius-10 d-flex">
-                                <div className="account__left--sidebar">
+                            <div className="my__account--section__inner border-radius-10">
+                                {/* <div className="account__left--sidebar">
                                     <h2 className="account__content--title h3 mb-20">My Profile</h2>
                                     <ul className="account__menu">
                                         <li className="account__menu--list active"><Link to="my-account">Dashboard</Link></li>
@@ -74,10 +74,10 @@ export default class Myaccount extends Component {
                                         <li className="account__menu--list"><Link to="wishlist">Wishlist</Link></li>
                                         <li className="account__menu--list"><Link to="login">Log Out</Link></li>
                                     </ul>
-                                </div>
+                                </div> */}
                                 <div className="account__wrapper">
                                     <div className="account__content">
-                                        <h2 className="account__content--title h3 mb-20">Orde History</h2>
+                                        <h2 className="account__content--title h3 mb-20">Order History</h2>
                                         <div className="account__table--area">
                                             <table className="account__table">
                                                 <thead className="account__table--header">
@@ -94,7 +94,7 @@ export default class Myaccount extends Component {
                                                     {this.state.orders?.map((order) => {
                                                         return (
                                                             <tr className="account__table--body__child">
-                                                                <td className="account__table--body__child--items">#{order.ref_code}</td>
+                                                                <td className="account__table--body__child--items">#{order.Ref_code}</td>
                                                                 <td className="account__table--body__child--items">
                                                                     {dateFormat(
                                                                         order.ordered_date,

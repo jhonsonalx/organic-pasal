@@ -139,7 +139,7 @@ export default class Footer extends Component {
             <div className="footer__bottom">
                 <div className="row justify-content-between align-items-center">
                     <div className="col-12 col-md-auto">
-                        <p className="copyright__content">Copyright © 2022 <Link className="copyright__content--link text__primary" to="index">Organic pasal</Link> . All Rights Reserved.Design By Organic pasal</p>
+                        <p className="copyright__content">Copyright © 2022 <Link className="copyright__content--link text__primary" to="/">Organic pasal</Link>. All Rights Reserved. Design By Organic pasal.</p>
                     </div>
                    
                 </div>

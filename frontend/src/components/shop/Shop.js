@@ -115,7 +115,7 @@ export default class Shop extends Component {
                                                   
 
                                                     <div className="product__items--thumbnail">
-                                                        <Link className="product__items--link" to="product-details">
+                                                        <Link className="product__items--link" to={`/product/${item.slug}`}>
                                                             <img className="product__items--img product__primary--img" src={`${baseURL}${item.image}`} alt={item.name}/>
                                                         </Link>
                                                         <div className="product__badge">
@@ -124,7 +124,7 @@ export default class Shop extends Component {
                                                         <ul className="product__items--action">
                                                             <li className="product__items--action__list">
                                                                 <Link className="product__items--action__btn" to="wishlist">
-                                                                    <svg className="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                                                                    <svg className="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32"/></svg>
                                                                     <span className="visually-hidden">Wishlist</span>
                                                                 </Link>
                                                             </li>
@@ -192,12 +192,12 @@ export default class Shop extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="pagination__area bg__gray--color">
+                            {/* <div className="pagination__area bg__gray--color">
                                 <nav className="pagination justify-content-center">
                                     <ul className="pagination__wrapper d-flex align-items-center justify-content-center">
                                         <li className="pagination__list">
                                             <Link to="shop" className="pagination__item--arrow  link ">
-                                                <svg xmlns="http://www.w3.org/2000/svg"  width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg"  width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="48" d="M244 400L100 256l144-144M120 256h292"/></svg>
                                                 <span className="visually-hidden">page left arrow</span>
                                             </Link>
                                         </li>
@@ -207,13 +207,13 @@ export default class Shop extends Component {
                                         <li className="pagination__list"><Link to="shop" className="pagination__item link">4</Link></li>
                                         <li className="pagination__list">
                                             <Link to="shop" className="pagination__item--arrow  link ">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M268 112l144 144-144 144M392 256H100"/></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="48" d="M268 112l144 144-144 144M392 256H100"/></svg>
                                                 <span className="visually-hidden">page right arrow</span>
                                             </Link>
                                         </li>
                                     </ul>
                                 </nav>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

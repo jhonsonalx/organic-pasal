@@ -39,7 +39,6 @@ class CheckoutView(APIView):
                 except Exception as e:
                     return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-                
                 products = []
                 for item in order.items.all():
                     products.append(item)
@@ -79,16 +78,10 @@ def save_order_db(order, total_price, address):
 
     order_items = order.items.all()
     order_items.update(ordered=True)
-    total_profit_loss = 0
-    for item in order_items:
-
-        total_profit_loss += item.profit_loss
-        item.save()
 
     order.ordered = True
     order.status = 0
     order.ref_code = create_ref_code()
-    order.total_profit_loss = total_profit_loss
     order.save()
 
 
@@ -434,7 +427,7 @@ def remove_from_cart(request, slug):
 @permission_classes([permissions.IsAuthenticated])
 def add_to_wishlist(request, slug):
     item = get_object_or_404(Product, slug=slug)
-    Wishlist.objects.get_or_create(item=item, user=request.user)
+    Wishlist.objects.get_or_create(product=item, user=request.user)
     count = Wishlist.objects.filter(user=request.user).count()
     return JsonResponse({"count": count, "status": 200, "message": "Successfully Added To The Wishlist."})
 
@@ -444,7 +437,7 @@ def add_to_wishlist(request, slug):
 def remove_from_wishlist(request, slug):
     item = get_object_or_404(Product, slug=slug)
     wishlist_item = Wishlist.objects.filter(
-        item=item,
+        product=item,
         user=request.user
     )
     if wishlist_item.exists():
@@ -461,12 +454,12 @@ def contact_form(request):
         try:
             name = request.data['name']
             email = request.data['email']
-            subject = request.data['subject']
-            message = request.data['message']
-            contact_us = Contact.objects.create(name=name, email=email, subject=subject, message=message)
+            phone = request.data['phone']
+            description = request.data['message']
+            contact_us = Contact.objects.create(name=name, email=email, phone=phone, description=description)
 
-            subject = subject + " - Contact Fashion Fit"
-            message = "Name: " + name + "\nEmail: " + email + "\nMessage: " + message
+            subject = "Contact Organic Pasal"
+            message = "Name: " + name + "\nEmail: " + email + "\nMessage: " + description
             try:
                 send_mail(subject, message, email, [EMAIL_HOST_USER], fail_silently=False)
             except BadHeaderError:
@@ -637,7 +630,7 @@ class AddressView(APIView):
             return Response({"message": "Something went wrong."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-def post(self, *args, **kwargs):
+    def post(self, *args, **kwargs):
         try:
             full_name = self.request.data['full_name']
             phone_number = self.request.data['phone_number']
@@ -665,7 +658,9 @@ def post(self, *args, **kwargs):
 
             address.save()
 
-            return Response({"message": "Your address was successful added!", "address": address}, status=status.HTTP_200_OK)
+            address_serializer = AddressSerializer(address).data
+
+            return Response({"message": "Your address was successful added!", "address": address_serializer}, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response({"message": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

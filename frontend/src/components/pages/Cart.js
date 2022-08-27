@@ -4,6 +4,8 @@ import Header from "../base/Header";
 import Footer from "../base/Footer";
 import Model from "../base/Model";
 import axiosInstance, { baseURL } from "../api/axiosInstance";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class Cart extends Component {
     constructor() {
@@ -15,6 +17,7 @@ export default class Cart extends Component {
             wishlist: [],
             order_subtotal: 0,
         };
+        this.handleCartSubmit = this.handleCartSubmit.bind(this);
     }
 
     async componentDidMount() {
@@ -32,6 +35,55 @@ export default class Cart extends Component {
             wishlist: data2.wishlist,
         });
     }
+    
+  async handleCartSubmit(item_slug) {
+    try {
+      let res = await axiosInstance.post(`/remove-from-cart/${item_slug}/`);
+      toast.success(res.data.message, {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        theme: "colored",
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+      });
+    } catch (err) {
+      if (err.response.data.message !== undefined) {
+        toast.error(err.response.data.message, {
+          position: "bottom-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          theme: "colored",
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+        });
+      } else {
+        toast.error(err.message, {
+          position: "bottom-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          theme: "colored",
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+        });
+      }
+    }
+    let res2 = await axiosInstance.get(`/order-cart/`);
+    let data2 = await res2.data;
+    this.setState({
+      order: data2.order,
+      subtotal: data2.subtotal,
+      total: data2.total,
+      order_subtotal: data2.subtotal,
+    });
+  }
+
     render() {
         return (
             <React.Fragment>
@@ -76,139 +128,42 @@ export default class Cart extends Component {
                                                             </tr>
                                                         </thead>
                                                         <tbody className="cart__table--body">
-                                                            <tr className="cart__table--body__items">
-                                                                <td className="cart__table--body__list">
-                                                                    <div className="cart__product d-flex align-items-center">
-                                                                        <button className="cart__remove--btn" aria-label="search button" type="button">
-                                                                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z" /></svg>
-                                                                        </button>
-                                                                        <div className="cart__thumbnail">
-                                                                            <Link to="/"><img className="border-radius-5" src="assets/img/product/Pili.jpg" alt="cart-product" /></Link >
-                                                                        </div>
-                                                                        <div className="cart__content">
-                                                                            <h3 className="cart__content--title h4"><Link to="/">RATO KURSANI</Link ></h3>
-                                                                            <span className="cart__content--variant">COLOR: Blue</span>
-                                                                            <span className="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <span className="cart__price">RS65.00</span>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <div className="quantity__box">
-                                                                        <button type="button" className="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                                        <label>
-                                                                            <input type="number" className="quantity__number quickview__value--number" defaultValue="1" data-counter />
-                                                                        </label>
-                                                                        <button type="button" className="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <span className="cart__price end">RS130.00</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr className="cart__table--body__items">
-                                                                <td className="cart__table--body__list">
-                                                                    <div className="cart__product d-flex align-items-center">
-                                                                        <button className="cart__remove--btn" aria-label="search button" type="button">
-                                                                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z" /></svg>
-                                                                        </button>
-                                                                        <div className="cart__thumbnail">
-                                                                            <Link to="/"><img className="border-radius-5" src="assets/img/product/naspati.JPG" alt="cart-product" /></Link >
-                                                                        </div>
-                                                                        <div className="cart__content">
-                                                                            <h3 className="cart__content--title h4"><Link to="/">NASPATI</Link ></h3>
-                                                                            <span className="cart__content--variant">COLOR: Blue</span>
-                                                                            <span className="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <span className="cart__price">RS65.00</span>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <div className="quantity__box">
-                                                                        <button type="button" className="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                                        <label>
-                                                                            <input type="number" className="quantity__number quickview__value--number" defaultValue="1" data-counter />
-                                                                        </label>
-                                                                        <button type="button" className="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <span className="cart__price end">RS130.00</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr className="cart__table--body__items">
-                                                                <td className="cart__table--body__list">
-                                                                    <div className="cart__product d-flex align-items-center">
-                                                                        <button className="cart__remove--btn" aria-label="search button" type="button">
-                                                                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z" /></svg>
-                                                                        </button>
-                                                                        <div className="cart__thumbnail">
-                                                                            <Link to="/"><img className="border-radius-5" src="assets/img/product/gghh.jpg" alt="cart-product" /></Link >
-                                                                        </div>
-                                                                        <div className="cart__content">
-                                                                            <h3 className="cart__content--title h4"><Link to="/">BHENTA</Link ></h3>
-                                                                            <span className="cart__content--variant">COLOR: Blue</span>
-                                                                            <span className="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <span className="cart__price">RS65.00</span>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <div className="quantity__box">
-                                                                        <button type="button" className="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                                        <label>
-                                                                            <input type="number" className="quantity__number quickview__value--number" defaultValue="1" data-counter />
-                                                                        </label>
-                                                                        <button type="button" className="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <span className="cart__price end">RS130.00</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr className="cart__table--body__items">
-                                                                <td className="cart__table--body__list">
-                                                                    <div className="cart__product d-flex align-items-center">
-                                                                        <button className="cart__remove--btn" aria-label="search button" type="button">
-                                                                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z" /></svg>
-                                                                        </button>
-                                                                        <div className="cart__thumbnail">
-                                                                            <Link to="/"><img className="border-radius-5" src="assets/img/product/cauli.jpg" alt="cart-product" /></Link >
-                                                                        </div>
-                                                                        <div className="cart__content">
-                                                                            <h3 className="cart__content--title h4"><Link to="product-details.html">CAULIFLOWER</Link ></h3>
-                                                                            <span className="cart__content--variant">COLOR: Blue</span>
-                                                                            <span className="cart__content--variant">WEIGHT: 2 Kg</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <span className="cart__price">RS65.00</span>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <div className="quantity__box">
-                                                                        <button type="button" className="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value">-</button>
-                                                                        <label>
-                                                                            <input type="number" className="quantity__number quickview__value--number" defaultValue="1" data-counter />
-                                                                        </label>
-                                                                        <button type="button" className="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value">+</button>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="cart__table--body__list">
-                                                                    <span className="cart__price end">RS130.00</span>
-                                                                </td>
-                                                            </tr>
+                                                            
+                                                            {this.state.order.items?.map((item) => {
+                                                                return (
+                                                                    <tr className="cart__table--body__items">
+                                                                        <td className="cart__table--body__list">
+                                                                            <div className="cart__product d-flex align-items-center">
+                                                                                <button onClick={() => this.handleCartSubmit(item.item.slug)} className="cart__remove--btn">
+                                                                                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
+                                                                                </button>
+                                                                                <div className="cart__thumbnail">
+                                                                                    <Link to={`/product/${item.item.slug}`}><img className="border-radius-5" src={`${baseURL}${item.item.image}`} alt={item.item.name} /></Link >
+                                                                                </div>
+                                                                                <div className="cart__content">
+                                                                                    <h3 className="cart__content--title h4"><Link to={`/product/${item.item.slug}`}>{item.item.name}</Link ></h3>
+                                                                                    <span className="cart__content--variant">WEIGHT: {item.quantity} Kg</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="cart__table--body__list">
+                                                                            <span className="cart__price">Rs.{item.item.price}</span>
+                                                                        </td>
+                                                                        <td className="cart__table--body__list">
+                                                                            <span className="cart__price">{item.quantity}</span>
+                                                                        </td>
+                                                                        <td className="cart__table--body__list">
+                                                                            <span className="cart__price end">Rs.{item.item.price * item.quantity}</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                );
+                                                            })}
+
                                                         </tbody>
                                                     </table>
                                                     <div className="continue__shopping d-flex justify-content-between">
-                                                        <Link className="continue__shopping--link" Link="shop.html">Continue shopping</Link >
-                                                        <button className="continue__shopping--clear" type="submit">Clear Cart</button>
+                                                        <button className="continue__shopping--clear" type="button"></button>
+                                                        <Link className="continue__shopping--clear" Link="shop.html">Continue shopping</Link >
                                                     </div>
                                                 </div>
                                             </div>
@@ -224,11 +179,11 @@ export default class Cart extends Component {
                                                             <tbody>
                                                                 <tr className="cart__summary--total__list">
                                                                     <td className="cart__summary--total__title text-left">SUBTOTAL</td>
-                                                                    <td className="cart__summary--amount text-right">RS860.00</td>
+                                                                    <td className="cart__summary--amount text-right">Rs.{this.state.subtotal}</td>
                                                                 </tr>
                                                                 <tr className="cart__summary--total__list">
                                                                     <td className="cart__summary--total__title text-left">GRAND TOTAL</td>
-                                                                    <td className="cart__summary--amount text-right">RS860.00</td>
+                                                                    <td className="cart__summary--amount text-right">Rs.{this.state.total}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -236,8 +191,8 @@ export default class Cart extends Component {
                                                     <div className="cart__summary--footer">
                                                         <p className="cart__summary--footer__desc">Shipping & taxes calculated at checkout</p>
                                                         <ul className="d-flex justify-content-between">
-                                                            <li><button className="cart__summary--footer__btn btn cart" type="submit">Update Cart</button></li>
-                                                            <li><Link className="cart__summary--footer__btn btn checkout" Link="checkout.html">Check Out</Link ></li>
+                                                            {/* <li><button className="cart__summary--footer__btn btn cart" type="submit">Update Cart</button></li> */}
+                                                            <li><Link className="cart__summary--footer__btn btn checkout" to="/checkout">Checkout</Link></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -247,62 +202,7 @@ export default class Cart extends Component {
                                 </div>
                             </div>
                         </section>
-
-
-                        {/*<!-- Start product section -->*/}
-                        <section className="product__section product__section--style3 section--padding pt-0">
-                            <div className="container-fluid">
-                                <div className="section__heading3 mb-40">
-                                    <h2 className="section__heading3--maintitle">New Products</h2>
-                                </div>
-                                <div className="product__section--inner product3__section--inner__padding product__section--style3__inner product__column6--activation swiper">
-                                    <div className="">
-                                        <div className="">
-                                            <div className="product__items product__items2">
-                                                <div className="product__items--thumbnail">
-                                                    {this.state.order.items?.map((item) => {
-                                                        return (
-                                                            <>
-                                                                <Link className="product__items--link" Link={`/product/${item.item.slug}`}>
-                                                                    <img className="product__items--img product__primary--img" src={`${baseURL}${item.item.image}`}
-                                                                        alt={item.item.name} />
-
-                                                                </Link >
-                                                                <div className="product__badge">
-                                                                    <span className="product__badge--items sale">Sale</span>
-                                                                </div>
-                                                                <ul className="product__items--action">
-                                                                    <li className="product__items--action__list">
-                                                                        <Link className="product__items--action__btn" Link="wishlist.html">
-                                                                            <svg className="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" /></svg>
-                                                                            <span className="visually-hidden">Wishlist</span>
-                                                                        </Link >
-                                                                    </li>
-                                                                    <li className="product__items--action__list">
-
-                                                                    </li>
-                                                                    <li className="product__items--action__list">
-
-                                                                    </li>
-
-                                                                </ul>
-                                                            </>
-                                                        );
-                                                    })}
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                    <div className="swiper__nav--btn swiper-button-next"></div>
-                                    <div className="swiper__nav--btn swiper-button-prev"></div>
-                                </div>
-                            </div>
-                        </section>
-
-
+                        <ToastContainer/>
 
 
 

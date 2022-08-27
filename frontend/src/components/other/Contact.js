@@ -6,13 +6,14 @@ import Model from "../base/Model";
 import axiosInstance from "../api/axiosInstance";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 export default class Contact extends Component {
     constructor() {
         super();
         this.state = {
           name: "",
           email: "",
-          subject: "",
+          phone: "",
           message: "",
           order: [],
           wishlist: [],
@@ -52,7 +53,7 @@ export default class Contact extends Component {
           let res = await axiosInstance.post(`/contact-form/`, {
             name: this.state.name,
             email: this.state.email,
-            subject: this.state.subject,
+            phone: this.state.phone,
             message: this.state.message,
           });
           toast.success(res.data.message, {
@@ -68,7 +69,7 @@ export default class Contact extends Component {
           this.setState({
             name: "",
             email: "",
-            subject: "",
+            phone: "",
             message: "",
           });
         } catch (err) {
@@ -135,36 +136,49 @@ export default class Contact extends Component {
                     
                     <div  className="contact__form">
                         <h3  className="contact__form--title mb-40">Contact Me</h3>
-                        <form  className="contact__form--inner" action="#">
+                        <form  className="contact__form--inner" 
+                    method="post"
+                    onSubmit={this.handleSubmit}>
                             <div  className="row">
                                 <div  className="col-lg-6 col-md-6">
                                     <div  className="contact__form--list mb-20">
-                                        <label  className="contact__form--label" htmlFor="input1">First Name <span  className="contact__form--label__star">*</span></label>
-                                        <input  className="contact__form--input" name="firstname" id="input1" placeholder="Your First Name" type="text"/>
-                                    </div>
-                                </div>
-                                <div  className="col-lg-6 col-md-6">
-                                    <div  className="contact__form--list mb-20">
-                                        <label  className="contact__form--label" htmlFor="input2">Last Name <span  className="contact__form--label__star">*</span></label>
-                                        <input  className="contact__form--input" name="lastname" id="input2" placeholder="Your Last Name" type="text"/>
+                                        <label  className="contact__form--label" htmlFor="input1">Full Name <span  className="contact__form--label__star">*</span></label>
+                                        <input  className="contact__form--input" id="input1" placeholder="Your Full Name" type="text"
+                          name="name"
+                          required="required"
+                          data-error="Name is required."
+                          value={this.state.name}
+                          onChange={this.handleInputChange}/>
                                     </div>
                                 </div>
                                 <div  className="col-lg-6 col-md-6">
                                     <div  className="contact__form--list mb-20">
                                         <label  className="contact__form--label" htmlFor="input3">Phone Number <span  className="contact__form--label__star">*</span></label>
-                                        <input  className="contact__form--input" name="number" id="input3" placeholder="Phone number" type="text"/>
+                                        <input  className="contact__form--input" name="phone" id="input3" placeholder="Phone number" type="text"
+                          required="required"
+                          data-error="Phone is required."
+                          value={this.state.phone}
+                          onChange={this.handleInputChange}/>
                                     </div>
                                 </div>
                                 <div  className="col-lg-6 col-md-6">
                                     <div  className="contact__form--list mb-20">
                                         <label  className="contact__form--label" htmlFor="input4">Email <span  className="contact__form--label__star">*</span></label>
-                                        <input  className="contact__form--input" name="email" id="input4" placeholder="Email" type="text"/>
+                                        <input  className="contact__form--input" id="input4" placeholder="Email" type="text"
+                          name="email"
+                          required="required"
+                          data-error="Email is required."
+                          value={this.state.email}
+                          onChange={this.handleInputChange}/>
                                     </div>
                                 </div>
                                 <div  className="col-12">
                                     <div  className="contact__form--list mb-15">
                                         <label  className="contact__form--label" htmlFor="input5">Write Your Message <span  className="contact__form--label__star">*</span></label>
-                                        <textarea  className="contact__form--textarea" name="message" id="input5" placeholder="Write Your Message"></textarea>
+                                        <textarea  className="contact__form--textarea" name="message" id="input5" placeholder="Write Your Message"
+                          required="required"
+                          data-error="Message is required."
+                          onChange={this.handleInputChange}>{this.state.message}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -254,6 +268,8 @@ export default class Contact extends Component {
                 </div>
             </div>
         </section>
+        
+        <ToastContainer/>
         
         {/*!-- Start contact map area -->*/}
         {/*<div  className="contact__map--area section--padding pt-0">
